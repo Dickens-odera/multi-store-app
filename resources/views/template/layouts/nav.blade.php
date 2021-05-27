@@ -14,7 +14,22 @@
     </ul>
 
     <!-- Right navbar links -->
-{{--    <ul class="navbar-nav ml-auto">--}}
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                Account
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <div class="dropdown-divider"></div>
+               <form method="post" action="{{ route('logout') }}" class="dropdown-item">
+                    @csrf
+                   <button type="submit" class="btn btn-sm btn-info"> <i class="icon-signout"></i> Logout</button>
+{{--                   <a href="{{ route('logout') }}" class="dropdown-item">--}}
+{{--                       <i class="fas fa-sign-out"></i> Logout--}}
+{{--                   </a>--}}
+               </form>
+            </div>
+        </li>
 {{--        <!-- Navbar Search -->--}}
 {{--        <li class="nav-item">--}}
 {{--            <a class="nav-link" data-widget="navbar-search" href="#" role="button">--}}
@@ -95,7 +110,7 @@
 {{--                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>--}}
 {{--            </div>--}}
 {{--        </li>--}}
-{{--        <!-- Notifications Dropdown Menu -->--}}
+        <!-- Notifications Dropdown Menu -->
 {{--        <li class="nav-item dropdown">--}}
 {{--            <a class="nav-link" data-toggle="dropdown" href="#">--}}
 {{--                <i class="far fa-bell"></i>--}}
@@ -117,10 +132,10 @@
 {{--                <a href="#" class="dropdown-item">--}}
 {{--                    <i class="fas fa-file mr-2"></i> 3 new reports--}}
 {{--                    <span class="float-right text-muted text-sm">2 days</span>--}}
-{{--                </a>--}}
-{{--                <div class="dropdown-divider"></div>--}}
-{{--                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>--}}
-{{--            </div>--}}
+{{--        </a>--}}
+{{--        <div class="dropdown-divider"></div>--}}
+{{--        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>--}}
+{{--        </div>--}}
 {{--        </li>--}}
 {{--        <li class="nav-item">--}}
 {{--            <a class="nav-link" data-widget="fullscreen" href="#" role="button">--}}
@@ -132,6 +147,6 @@
 {{--                <i class="fas fa-th-large"></i>--}}
 {{--            </a>--}}
 {{--        </li>--}}
-{{--    </ul>--}}
+    </ul>
 </nav>
 <!-- /.navbar -->
