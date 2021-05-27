@@ -36,6 +36,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+            @include('template.layouts.info')
             @yield('content')
             <!-- Main row -->
             {{--        <div class="row">--}}

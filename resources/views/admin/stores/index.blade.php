@@ -9,7 +9,6 @@
                         Add New Store
                     </button>
                 </div>
-                @include('template.layouts.info')
                 <div class="card-body">
                     <table class="table table-responsive table-bordered table-striped table-responsive-xl" style="width:100%">
                         <thead>
@@ -31,7 +30,7 @@
                                 <td>
                                     <button class="btn-group btn-group-sm" style="border: none">
                                         <a class="btn btn-sm btn-success" href="#"><i class="fas fa-eye"></i></a>
-                                        <a class="btn btn-primary btn-sm" href="#"><i class="fas fa-pencil-alt"></i> </a>
+                                        <a class="btn btn-primary btn-sm" href="{{ route('stores.edit', $store->id) }}"><i class="fas fa-pencil-alt"></i> </a>
                                         <a class="btn btn-danger btn-sm" href="#"><i class="fa fa-trash"></i> </a>
                                         @if($store->status === \App\Models\Store::STATUS_ACTIVE)
                                             <form method="post" action="{{ route('store.deactivate', ['id' > $store->id ]) }}">
