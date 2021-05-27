@@ -54,7 +54,8 @@ class StoreController extends Controller
     public function edit($id)
     {
         $store = Store::with('user')->find($id);
-        return view('admin.stores.edit', compact('store'));
+        $users = User::orderBy('name','ASC')->get();
+        return view('admin.stores.edit', compact('store','users'));
     }
 
     public function update(StoreRequest $request, $id)
