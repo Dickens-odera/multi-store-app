@@ -341,7 +341,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('drivers.index') }}" class="nav-link">
                                 <i class="far fa-address-card nav-icon"></i>
                                 <p>Drivers</p>
                             </a>

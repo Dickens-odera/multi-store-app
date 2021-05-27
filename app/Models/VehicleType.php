@@ -18,4 +18,8 @@ class VehicleType extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function driver(){
+        //TODO implement driver-vehicle_type relationship here
+    }
 }
