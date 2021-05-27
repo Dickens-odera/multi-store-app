@@ -104,6 +104,9 @@
                             </table>
                         </div>
                     </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-sm btn-success"><i class="arrow arrow-right"></i> View More </a>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6">
@@ -143,6 +146,9 @@
                             </table>
                         </div>
                     </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-sm btn-success"><i class="arrow arrow-right"></i> View More </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -161,21 +167,29 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
+                                    <th>Added By</th>
+                                    <th>Vehicle Type</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($users as $user)
+                                @foreach($drivers as $driver)
                                     <tr>
-                                        <td>{{ $user->id }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>+25476351429</td> <!-- TODO fetch user role here-->
+                                        <td>{{ $driver->id }}</td>
+                                        <td>{{ $driver->name }}</td>
+                                        <td>{{ $driver->email }}</td>
+                                        <td>{{ $driver->phone }}</td>
+                                        <td>{{ $driver->user->name ?? NULL }}</td>
+                                        <td>{{ $driver->vehicle->name ?? NULL }}</td>
                                         <td>
                                             <button class="btn-group btn-group-sm" style="border: none">
-                                                <a class="btn btn-sm btn-success" href="#"><i class="fas fa-eye"></i></a>
-                                                <a class="btn btn-primary btn-sm" href="#"><i class="fas fa-pencil-alt"></i> </a>
-                                                <a class="btn btn-danger btn-sm" href="#"><i class="fa fa-trash"></i> </a>
+                                                {{--                                        <a class="btn btn-sm btn-success" href="{{ route('drivers.show',$driver->id) }}"><i class="fas fa-eye"></i></a>--}}
+                                                <a class="btn btn-primary btn-sm" href="{{ route('drivers.edit',$driver->id) }}"><i class="fas fa-pencil-alt"></i> </a>
+                                                <form method="post" action="{{ route('drivers.destroy', $driver->id) }}">
+                                                    @csrf
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button>
+                                                </form>
                                             </button>
                                         </td>
                                     </tr>
@@ -183,6 +197,9 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ route('drivers.index') }}" class="btn btn-sm btn-success"><i class="arrow arrow-right"></i> View More </a>
                     </div>
                 </div>
             </div>
@@ -208,6 +225,9 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-sm btn-success"><i class="arrow arrow-right"></i> View More </a>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Models\Driver;
 use App\Models\Store;
 use App\Models\User;
 
@@ -15,9 +16,7 @@ class AdminService
     }
 
     public function listDrivers(){
-        return User::get()->filter(function($user){
-            return $user->role == User::DRIVER_ROLE;
-        });
+        return Driver::take(5)->latest()->get();
     }
 
     public function listClients(){
