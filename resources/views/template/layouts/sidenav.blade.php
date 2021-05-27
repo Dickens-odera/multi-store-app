@@ -350,27 +350,10 @@
                 </li>
                 <!-- Vehicle Types -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fa fa-car nav-icon"></i>
-                        <p>
-                            Vehicles
-                            <i class="fas fa-angle-left right "></i>
-                        </p>
+                    <a href="{{ route('vehicle_types.index') }}" class="nav-link">
+                        <i class="fas fa-car nav-icon"></i>
+                        <p>Vehicle Types</p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="fas fa-car nav-icon"></i>
-                                <p>Cars</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="fas fa-motorcycle nav-icon"></i>
-                                <p>Motorbikes</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <!-- Vehicle Types -->
                 <li class="nav-item">
