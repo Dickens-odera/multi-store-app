@@ -1,5 +1,7 @@
 @extends('template.layouts.main')
 @section('content')
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -16,6 +18,7 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Owner</th>
+                            <th>Description</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -26,14 +29,17 @@
                                 <td>{{ $store->id }}</td>
                                 <td>{{ $store->name }}</td>
                                 <td>{{ $store->user->name ?? NULL }}</td>
+                                <td>{{ $store->description }}</td>
                                 <td>{{ $store->status }}</td>
                                 <td>
                                     <button class="btn-group btn-group-sm" style="border: none">
-                                        <a class="btn btn-sm btn-success" href="#"><i class="fas fa-eye"></i></a>
+{{--                                        <a class="btn btn-sm btn-success" href="#"><i class="fas fa-eye"></i></a>--}}
                                         <a class="btn btn-primary btn-sm" href="{{ route('stores.edit', $store->id) }}"><i class="fas fa-pencil-alt"></i> </a>
-                                        <a class="btn btn-danger btn-sm" href="#"><i class="fa fa-trash"></i> </a>
+                                        <a class="btn btn-danger btn-sm" onclick="confirmDelete({{ $store->id }})" id="deleteStoreModalBtn" data-id="{{ $store->id }}" href="#"><i class="fa fa-trash"></i>
+                                            <input type="hidden" name="_method" value="DELETE"/>
+                                        </a>
                                         @if($store->status === \App\Models\Store::STATUS_ACTIVE)
-                                            <form method="post" action="{{ route('store.deactivate', ['id' > $store->id ]) }}">
+                                            <form method="post" action="{{ route('store.deactivate', ['id' => $store->id ]) }}">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-danger">Deactivate</button>
                                             </form>
@@ -101,4 +107,72 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        function confirmDelete(id=null)
+        {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-danger',
+                    cancelButton: 'btn btn-success'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "This store will be deleted",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    //let store_id = $('deleteStoreModalBtn').data('id');
+                    let id = "{{  $store->id }} ";
+                    let url = '{{ route("stores.destroy", $store->id ) }}';
+                    //url.replace(':id', store_id);
+                    $.ajax({
+                        url:url,
+                        method:'DELETE',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "id": id
+                        },
+                        success:function(){
+                            swalWithBootstrapButtons.fire(
+                                'Deleted!',
+                                'Store Deleted Successfully.',
+                                'success'
+                            ).then(
+                                window.location.reload()
+                            );
+                        }
+                    })
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'You successfully cancelled the delete action',
+                        'success'
+                    )
+                }
+            })
+        }
+        $(document).ready(function(){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+        });
+        });
+
+    </script>
 @endsection
