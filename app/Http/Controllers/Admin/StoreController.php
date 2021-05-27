@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequest;
 use App\Models\Store;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class StoreController extends Controller
     public function index()
     {
         $stores = Store::latest()->paginate(10);
-        return view('admin.stores.index', compact('stores'));
+        $users = User::orderBy('name','ASC')->get();
+        return view('admin.stores.index', compact('stores', 'users'));
     }
 
     public function create()

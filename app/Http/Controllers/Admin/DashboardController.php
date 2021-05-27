@@ -21,6 +21,7 @@ class DashboardController extends Controller
         $users       = $this->adminService->getUsers();
         $stores      = $this->adminService->getStores();
         $drivers     = $this->adminService->listDrivers();
+
         return view('admin.dashboard',[
             'totalStores' => $totalStores,
             'totalUsers'  => $totalUsers,
