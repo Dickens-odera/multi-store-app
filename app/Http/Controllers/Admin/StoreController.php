@@ -5,17 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequest;
 use App\Models\Store;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use function Symfony\Component\String\b;
 
 class StoreController extends Controller
 {
     public function index()
     {
         $stores = Store::latest()->paginate(10);
-        return view('admin.stores.index', compact('stores'));
+        $users = User::orderBy('name','ASC')->get();
+        return view('admin.stores.index', compact('stores', 'users'));
     }
 
     public function create()
@@ -116,7 +117,7 @@ class StoreController extends Controller
                 'status' => Store::STATUS_DEACTIVATED
             ]);
             if($deactivateStore){
-                return back()->with('success','Store activated successfully');
+                return back()->with('success','Store deactivated successfully');
             }else{
                 return back()->with('error','Failed to deactivate store, please try again');
             }

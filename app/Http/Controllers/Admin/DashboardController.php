@@ -20,12 +20,14 @@ class DashboardController extends Controller
         $totalUsers  = User::count();
         $users       = $this->adminService->getUsers();
         $stores      = $this->adminService->getStores();
+        $drivers     = $this->adminService->listDrivers();
 
         return view('admin.dashboard',[
             'totalStores' => $totalStores,
             'totalUsers'  => $totalUsers,
-            'users'      => $users,
-            'stores'      => $stores
+            'users'       => $users,
+            'stores'      => $stores,
+            'drivers'     => $drivers
         ]);
     }
 }

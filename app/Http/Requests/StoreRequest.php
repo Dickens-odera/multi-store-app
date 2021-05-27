@@ -24,8 +24,9 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => 'required|unique:stores,name|string|min:3|max:10',
-            'description'   => 'nullable|string|min:5|max:255'
+            'name'          => 'required|unique:stores,name|string|min:3|max:60',
+            'description'   => 'nullable|string|min:5|max:255',
+            'user_id'       => 'required|integer|exists:users,id'
         ];
     }
 }
