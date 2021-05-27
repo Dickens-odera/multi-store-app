@@ -32,7 +32,18 @@
                                     <button class="btn-group btn-group-sm" style="border: none">
                                         <a class="btn btn-sm btn-success" href="#"><i class="fas fa-eye"></i></a>
                                         <a class="btn btn-primary btn-sm" href="#"><i class="fas fa-pencil-alt"></i> </a>
-                                        <a class="btn btn-danger btn-sm" href="#"><i class="fa fa-wrench"></i> </a>
+                                        <a class="btn btn-danger btn-sm" href="#"><i class="fa fa-trash"></i> </a>
+                                        @if($store->status === \App\Models\Store::STATUS_ACTIVE)
+                                            <form method="post" action="{{ route('store.deactivate', ['id' > $store->id ]) }}">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-danger">Deactivate</button>
+                                            </form>
+                                        @elseif($store->status === \App\Models\Store::STATUS_DEACTIVATED)
+                                            <form method="post" action="{{ route('store.activate', ['id' => $store->id ]) }}">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-info">Activate</button>
+                                            </form>
+                                        @endif
                                     </button>
                                 </td>
                             </tr>

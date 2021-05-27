@@ -117,7 +117,7 @@ class StoreController extends Controller
                 'status' => Store::STATUS_DEACTIVATED
             ]);
             if($deactivateStore){
-                return back()->with('success','Store activated successfully');
+                return back()->with('success','Store deactivated successfully');
             }else{
                 return back()->with('error','Failed to deactivate store, please try again');
             }

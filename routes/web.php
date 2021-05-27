@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth']], function() {
     ]);
     Route::group(['prefix' => 'store', 'as' => 'store.'], function(){
         Route::post('/{id}/activate',[StoreController::class,'activate'])->name('activate');
-        Route::post('/{id}/deactivate',[StoreController::class,'activate'])->name('deactivate');
+        Route::post('/{id}/deactivate',[StoreController::class,'deactivate'])->name('deactivate');
     });
 });
 
