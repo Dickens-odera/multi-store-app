@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Admin\StoreController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +20,15 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+//Stores
+Route::group(['middleware' => 'auth'], function() {
+    Route::resource('stores',StoreController::class)->except([
+        'activate',
+        'deactivate'
+    ]);
+    Route::group(['prefix' => 'store', 'as' => 'store.'], function(){
+        Route::post('/{id}/activate',[StoreController::class,'activate'])->name('activate');
+        Route::post('/{id}/deactivate',[StoreController::class,'activate'])->name('deactivate');
+    });
+});
