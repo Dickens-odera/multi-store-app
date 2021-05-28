@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use App\Models\Product;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Paginator::useBootstrap();;
+        Paginator::useBootstrap();
+    
+        View::composer('welcome', function ($view) {
+            $products = Product::latest()->get();
+            $view->with(['products' => $products ]);
+        });
     }
 }
