@@ -33,6 +33,10 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/{id}/puchases',[ProductPurchaseController::class,'purchases'])->name('purchases');
         Route::post('/{id}/purchase',[ProductPurchaseController::class,'purchase'])->name('new_purchase');
     });
+    //promotiional emails to customers
+    Route::group(['prefix' => 'promotions', 'as' => 'promotions.'], function(){
+        Route::post('/{id}/send-mail',[ProductPurchaseController::class,'sendMail'])->name('send_mail');
+    });
 });
 
 //auth routes
