@@ -24,19 +24,28 @@ class ProductPurchaseController extends Controller
             return back()->with('error', $validator->errors()->first());
         }else{
             try{
-                
-                $purchase = ProductPurchase::create(
-                    array_merge(
-                        $request->validated(),
-                        [
-                            'user_id' => Auth::id(),
-                            'product_id' => $product->id,
-                            'total'      => $product->price * $request->qty
-                        ]
-                        ));
+                if( (int)$request->qty > $product->in_stock ){
+                    return back()->with('error','Sorry, the product is out of stock for now, please chcek in later on');
+                }elseif( $request->qty <= 0  )
+                {
+                    return back()->with('error','Sorry, Please indicate a valid product quantity to purchase');
+                }else{
+                    $purchase = ProductPurchase::create(
+                        array_merge(
+                            $request->validated(),
+                            [
+                                'user_id'       => Auth::id(),
+                                'product_id'    => $product->id,
+                                'total'         => $product->price * $request->qty
+                            ]
+                    ));
                 if($purchase){
                     //TODO integrate stripe payments here
-                    //TODO send email notification to both customer and store owner
+                    //update product stock count
+                    $product->update([
+                        'in_stock' => $product->in_stock - $request->qty
+                    ]);
+                    //send mail to store and product owner
                     $sendmail = ProductPurchased::dispatch($product);
                     if(!$sendmail){
                         return back()->with('error','Product bought successfully but failed to send email notification');
@@ -44,6 +53,7 @@ class ProductPurchaseController extends Controller
                     return redirect()->route('products.index')->with('success', 'Product bought successfully, kindly check your email for the order details');
                 }else{
                     return back()->with('error','Failed to buy product, please try again later');
+                }
                 }
             }catch(\Exception $ex){
                 Log::critical('Something went wrong purchasing the product. ERROR '.$ex->getMessage());

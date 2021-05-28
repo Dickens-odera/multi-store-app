@@ -18,6 +18,7 @@
                                 </div>
                                 <div class="card-body">
                                     <h4>Price: {{ $product->price }}</h4>
+                                    <h4>Stock: {{ $product->in_stock }}</h4>
                                     <form method="post" action="{{ route('product.new_purchase', $product->id) }}">
                                         @csrf
 
@@ -45,7 +46,7 @@
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    {{-- <th>#</th> --}}
                                                     <th>Client Name</th>
                                                     <th>Client Email</th>
                                                     <th>Client Phone</th>
@@ -58,7 +59,7 @@
                                             <tbody>
                                                 @forelse($product->purchases as $purchase)
                                                     <tr>
-                                                        <td>{{ $purchase->id }}</td> 
+                                                        {{-- <td>{{ $purchase->id }}</td>  --}}
                                                         <td>{{ $purchase->customer->name ?? NULL }}</td>
                                                         <td>{{ $purchase->customer->email ?? NULL }}</td> 
                                                         <td>{{ $purchase->customer->phone ?? NULL }}</td>  
@@ -92,7 +93,7 @@
           </button>
         </div>
         <div class="modal-body">
-            <form method="post" action="{{ route('promotions.send_mail', $purchase->id) }}">
+            <form method="post" action="{{ route('promotions.send_mail', $purchase->id ?? 0) }}">
                 @csrf
                 <div class="form-group">
                     <label for="message">Message</label>
