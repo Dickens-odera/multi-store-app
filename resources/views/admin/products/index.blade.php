@@ -12,18 +12,19 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Owner</th>
-                            <th>Status</th>
+                            <th>Price</th>
+                            <th>Store Name</th>
+                            <th>Added By</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($stores as $store)
+                        @foreach($products as $product)
                             <tr>
-                                <td>{{ $store->id }}</td>
-                                <td>{{ $store->name }}</td>
-                                <td>{{ $store->user->name ?? NULL }}</td>
-                                <td>{{ $store->status }}</td>
+                                <td>{{ $product->id }}</td>
+                                <td>{{ $product->name }}</td>
+                                <td>{{ $product->user->name ?? NULL }}</td>
+                                <td>{{ $product->status }}</td>
                                 <td>
                                     <button class="btn-group btn-group-sm" style="border: none">
                                         <a class="btn btn-sm btn-success" href="#"><i class="fas fa-eye"></i></a>
@@ -35,6 +36,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $products->links() }}
                 </div>
             </div>
         </div>
