@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Driver;
 use App\Models\Store;
 use App\Models\User;
+use App\Models\Product;
 
 class AdminService
 {
@@ -31,6 +32,6 @@ class AdminService
         });
     }
     public function getProducts(){
-        // return products
+        return Product::with('user','store')->latest()->get();
     }
 }

@@ -13,7 +13,7 @@
                 <div class="icon">
                     <i class="ion ion-bag"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('stores.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -51,14 +51,14 @@
             <!-- small box -->
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3>65</h3>
+                    <h3>{{ $totalProducts }}</h3>
 
                     <p>Products</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('products.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -81,7 +81,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
-                                    <th>Action</th>
+                                    {{-- <th>Action</th> --}}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -91,13 +91,13 @@
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>Admin</td> <!-- TODO fetch user role here-->
-                                        <td>
+                                        {{-- <td>
                                             <button class="btn-group btn-group-sm" style="border: none">
                                                 <a class="btn btn-sm btn-success" href="#"><i class="fas fa-eye"></i></a>
                                                 <a class="btn btn-primary btn-sm" href="#"><i class="fas fa-pencil-alt"></i> </a>
                                                 <a class="btn btn-danger btn-sm" href="#"><i class="fa fa-trash"></i> </a>
                                             </button>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -123,7 +123,7 @@
                                     <th>Name</th>
                                     <th>Owner</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    {{-- <th>Action</th> --}}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -133,13 +133,13 @@
                                         <td>{{ $store->name }}</td>
                                         <td>{{ $store->user->name ?? NULL }}</td>
                                         <td>{{ $store->status }}</td>
-                                        <td>
+                                        {{-- <td>
                                             <button class="btn-group btn-group-sm" style="border: none">
                                                 <a class="btn btn-sm btn-success" href="#"><i class="fas fa-eye"></i></a>
                                                 <a class="btn btn-primary btn-sm" href="#"><i class="fas fa-pencil-alt"></i> </a>
                                                 <a class="btn btn-danger btn-sm" href="#"><i class="fa fa-trash"></i> </a>
                                             </button>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -147,7 +147,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-sm btn-success"><i class="arrow arrow-right"></i> View More </a>
+                        <a href="{{ route('stores.index') }}" class="btn btn-sm btn-success"><i class="arrow arrow-right"></i> View More </a>
                     </div>
                 </div>
             </div>
@@ -163,27 +163,27 @@
                             <table class="table table-responsive table-bordered table-striped table-responsive-xl" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
+                                    {{-- <th>#</th> --}}
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
-                                    <th>Added By</th>
-                                    <th>Vehicle Type</th>
-                                    <th>Action</th>
+                                    <th>Added By</th> 
+                                   <th>Vehicle Type</th>
+                                    {{-- <th>Action</th> --}}
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($drivers as $driver)
                                     <tr>
-                                        <td>{{ $driver->id }}</td>
+                                        {{-- <td>{{ $driver->id }}</td> --}}
                                         <td>{{ $driver->name }}</td>
                                         <td>{{ $driver->email }}</td>
                                         <td>{{ $driver->phone }}</td>
-                                        <td>{{ $driver->user->name ?? NULL }}</td>
+                                         <td>{{ $driver->user->name ?? NULL }}</td>
                                         <td>{{ $driver->vehicle->name ?? NULL }}</td>
-                                        <td>
+                                        {{-- <td>
                                             <button class="btn-group btn-group-sm" style="border: none">
-                                                {{--                                        <a class="btn btn-sm btn-success" href="{{ route('drivers.show',$driver->id) }}"><i class="fas fa-eye"></i></a>--}}
+                                            
                                                 <a class="btn btn-primary btn-sm" href="{{ route('drivers.edit',$driver->id) }}"><i class="fas fa-pencil-alt"></i> </a>
                                                 <form method="post" action="{{ route('drivers.destroy', $driver->id) }}">
                                                     @csrf
@@ -191,7 +191,7 @@
                                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button>
                                                 </form>
                                             </button>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -218,16 +218,35 @@
                                     <th>Store Name</th>
                                     <th>Price</th>
                                     <th>In Stock</th>
-                                    <th>Action</th>
+                                    {{-- <th>Action</th> --}}
                                 </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($products as $product)
+                                    <tr>
+                                        <td>{{ $product->id }}</td>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->store->name ?? NULL }}</td>
+                                        <td>{{ $product->price }}</td>
+                                        <td>{{ $product->in_stock }}</td>
+                                        {{-- <td>
+                                            <button class="btn-group btn-group-sm" style="border: none">
+                                                <a class="btn btn-primary btn-sm" href="{{ route('products.edit',$product->id) }}"><i class="fas fa-pencil-alt"></i> </a>
+                                                <form method="post" action="{{ route('products.destroy', $product->id) }}">
+                                                    @csrf
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button>
+                                                </form>
+                                            </button>
+                                        </td> --}}
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-sm btn-success"><i class="arrow arrow-right"></i> View More </a>
+                        <a href="{{ route('products.index') }}" class="btn btn-sm btn-success"><i class="arrow arrow-right"></i> View More </a>
                     </div>
                 </div>
             </div>
