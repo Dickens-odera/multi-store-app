@@ -34,9 +34,12 @@
                                  {{-- <td>{{ $product->status }}</td> --}}
                                 <td>
                                     <button class="btn-group btn-group-sm" style="border: none">
-                                        <a class="btn btn-sm btn-success" href="#"><i class="fas fa-eye"></i></a>
-                                        <a class="btn btn-primary btn-sm" href="#"><i class="fas fa-pencil-alt"></i> </a>
-                                        <a class="btn btn-danger btn-sm" href="#"><i class="fa fa-wrench"></i> </a>
+                                        <a class="btn btn-sm btn-success" href=""><i class="fas fa-eye"></i></a>
+                                        <form method="post" action="{{ route('products.destroy', $product->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button>
+                                        </form>
                                     </button>
                                 </td>
                             </tr>
