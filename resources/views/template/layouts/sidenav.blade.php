@@ -357,7 +357,7 @@
                 </li>
                 <!-- Vehicle Types -->
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('products.index') }}" class="nav-link">
                         <i class="fas fa-bars nav-icon"></i>
                         <p>Products</p>
                     </a>

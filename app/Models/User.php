@@ -47,4 +47,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function stores(){
+        return $this->hasMany(Store::class,'user_id');
+    }
+    public function products(){
+        return $this->hasMany(Product::class, 'user_id');
+    }
+    public function drivers(){
+        return $this->hasMany(Driver::class, 'added_by');
+    }
 }
