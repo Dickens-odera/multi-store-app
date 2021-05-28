@@ -47,13 +47,13 @@ class StoreController extends Controller
 
     public function show($id)
     {
-        $store = Store::with('user')->find($id);
-        return view('admin.stores.details', compact('store'));
+        $store = Store::with('user','products')->find($id);
+        return view('admin.stores.details', compact('store')); //details.blade.php
     }
 
     public function edit($id)
     {
-        $store = Store::with('user')->find($id);
+        $store = Store::with('user', 'products')->find($id);
         $users = User::orderBy('name','ASC')->get();
         return view('admin.stores.edit', compact('store','users'));
     }

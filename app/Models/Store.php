@@ -31,6 +31,6 @@ class Store extends Model
         return $this->hasMany(ProductPurchase::class,'store_id');
     }
     public function products(){
-        return $this->hasMany(Product::class,'product_id');
+        return $this->hasMany(Product::class,'store_id');
     }
 }
