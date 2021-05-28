@@ -57,4 +57,7 @@ class User extends Authenticatable
     public function drivers(){
         return $this->hasMany(Driver::class, 'added_by');
     }
+    public function purchases(){
+        return $this->hasMany(ProductPurchase::class,'user_id');
+    }
 }

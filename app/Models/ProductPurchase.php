@@ -19,6 +19,7 @@ class ProductPurchase extends Model
         'user_id',
         'qty',
         'total',
+        'store_id'
     ];
     
     public function customer(){

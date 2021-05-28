@@ -369,7 +369,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('product.personal_purchases')}}" class="nav-link">
                         <i class="fas fa-bars nav-icon"></i>
                         <p>Purchases</p>
                     </a>

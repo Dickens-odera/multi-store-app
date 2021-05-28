@@ -36,7 +36,8 @@ class ProductPurchaseController extends Controller
                             [
                                 'user_id'       => Auth::id(),
                                 'product_id'    => $product->id,
-                                'total'         => $product->price * $request->qty
+                                'total'         => $product->price * $request->qty,
+                                'store_id'      => $product->store->id
                             ]
                     ));
                 if($purchase){
@@ -50,7 +51,7 @@ class ProductPurchaseController extends Controller
                     if(!$sendmail){
                         return back()->with('error','Product bought successfully but failed to send email notification');
                     }
-                    return redirect()->route('products.index')->with('success', 'Product bought successfully, kindly check your email for the order details');
+                    return back()->with('success', 'Product bought successfully, kindly check your email for the order details');
                 }else{
                     return back()->with('error','Failed to buy product, please try again later');
                 }
@@ -79,6 +80,10 @@ class ProductPurchaseController extends Controller
             Log::critical('Failed to send promotional email. ERROR: '.$ex->getTraceAsString());
             return back()->with('error','Could not send email, please try again later');
         }
+    }
+    public function myPurchases(){
+        $purchases = auth()->user()->purchases;
+        return view('admin.purchases.personal', compact('purchases'));
     }
     public function purchases(){
         //list all products

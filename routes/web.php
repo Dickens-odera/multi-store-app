@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::group(['prefix' => 'product', 'as' => 'product.'], function(){
         Route::get('/{id}/puchases',[ProductPurchaseController::class,'purchases'])->name('purchases');
         Route::post('/{id}/purchase',[ProductPurchaseController::class,'purchase'])->name('new_purchase');
+        Route::get('/client/purchases',[ProductPurchaseController::Class,'myPurchases'])->name('personal_purchases');
     });
     //promotiional emails to customers
     Route::group(['prefix' => 'promotions', 'as' => 'promotions.'], function(){
