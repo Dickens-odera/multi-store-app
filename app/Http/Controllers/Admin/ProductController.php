@@ -17,7 +17,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('user','store')->latest()->paginate(5);
+        $products = Product::with('user','store','purchases')->latest()->paginate(5);
         return view('admin.products.index', compact('products'));
     }
 
@@ -74,13 +74,13 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product   = Product::with('user','store')->find($id);
+        $product   = Product::with('user','store','purchases')->find($id);
         return view('admin.products.show', compact('product'));
     }
 
     public function edit($id)
     {
-        $product   = Product::with('user','store')->find($id);
+        $product   = Product::with('user','store','purchases')->find($id);
         $stores = auth()->user()->stores ?? NULL;
         return view('admin.products.show', compact('product','stores'));
     }
@@ -92,7 +92,7 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        $product   = Product::with('user','store')->find($id);
+        $product   = Product::with('user','store','purchases')->find($id);
         try{
             if($product->delete()){
                 Storage::delete($product->avatar);

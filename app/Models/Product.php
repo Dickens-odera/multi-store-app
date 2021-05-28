@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\ProductPurchase; 
 
 class Product extends Model
 {
@@ -28,5 +29,8 @@ class Product extends Model
     }
     public function store(){
         return $this->belongsTo(Store::class,'store_id');
+    }
+    public function purchases(){
+        return $this->hasMany(ProductPurchase::class,'product_id');
     }
 }

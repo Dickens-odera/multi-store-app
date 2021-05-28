@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use App\Events\ProductPurchased;
+use App\Mail\ClientPromotionalEmail;
 use Event;
+use Mail;
 
 class ProductPurchaseController extends Controller
 {
@@ -39,7 +41,7 @@ class ProductPurchaseController extends Controller
                     if(!$sendmail){
                         return back()->with('error','Product bought successfully but failed to send email notification');
                     }
-                    return back()->with('success', 'Product bought successfully, kindly check your email for the order details');
+                    return redirect()->route('products.index')->with('success', 'Product bought successfully, kindly check your email for the order details');
                 }else{
                     return back()->with('error','Failed to buy product, please try again later');
                 }
@@ -47,6 +49,25 @@ class ProductPurchaseController extends Controller
                 Log::critical('Something went wrong purchasing the product. ERROR '.$ex->getMessage());
                 return back()->with('error','Something went wrong purchasing the product, please try again later');
             }
+        }
+    }
+    public function sendMail(Request $request, $id){
+        $client = ProductPurchase::with('customer','product')->find($id);
+        $data = [
+            'message'   => $request->message,
+            'customer'  => $client,
+            'url'       => route('login')
+        ];
+        try{
+            $sendmail = Mail::to($client->customer->email)->send( new ClientPromotionalEmail($data));
+            if(!$sendmail){
+                return back()->with('error','Failed to send promotional email, please try again later.');
+            }else{
+                return back()->with('success','Promotional Email sent successfully to client');
+            }
+        }catch(\Exception $ex){
+            Log::critical('Failed to send promotional email. ERROR: '.$ex->getTraceAsString());
+            return back()->with('error','Could not send email, please try again later');
         }
     }
     public function purchases(){
