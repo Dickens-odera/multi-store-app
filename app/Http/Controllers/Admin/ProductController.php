@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Image;
 
 class ProductController extends Controller
 {
@@ -35,7 +36,18 @@ class ProductController extends Controller
         }else{
             if($request->hasFile('avatar')){
                 $avatar  = $request->file('avatar');
-                $fileUrl = $avatar->storeAs('vendor_products/avatars',auth()->user()->name.'/'.time());
+                $fileUrl = $avatar->storeAs('vendor_products/avatars',auth()->user()->name.'/'.time(),'public');
+                /*
+                $ext = $avatar->getClientOriginalExtension();
+                $saved_product_photo_name = time().Str::random(40).".".$ext;
+                $path = public_path('uploads/products/'.$saved_product_photo_name);
+                Image::make($avatar->getRealPath())->resize(250, 200, function($constraint)
+                {   
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })->save($path);
+                $fileUrl = $saved_product_photo_name;
+                **/
             }
             $productData = [
                 'name'          =>  $request->name,
