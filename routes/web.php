@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\VehicleTypeController;
 use App\Http\Controllers\Admin\DriverController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductPurchaseController;
+
 Route::view('/','welcome');
 //Stores
 Route::group(['middleware' => ['auth']], function() {
@@ -26,6 +28,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('vehicle_types',VehicleTypeController::class);
     //drivers
     Route::resource('drivers', DriverController::class);
+    //product purchases
+    Route::group(['prefix' => 'product', 'as' => 'product.'], function(){
+        Route::get('/{id}/puchases',[ProductPurchaseController::class,'purchases'])->name('purchases');
+        Route::post('/{id}/purchase',[ProductPurchaseController::class,'purchase'])->name('new_purchase');
+    });
 });
 
 //auth routes

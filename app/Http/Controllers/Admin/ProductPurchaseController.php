@@ -17,23 +17,28 @@ class ProductPurchaseController extends Controller
 {
     public function purchase(ProductPurchaseRequest $request, $id){
         $product = Product::with('user','store')->find($id);
-        $validator = Validator::make($request->all, $request->rules());
+        $validator = Validator::make($request->all(), $request->rules());
         if($validator->fails()){
             return back()->with('error', $validator->errors()->first());
         }else{
             try{
+                
                 $purchase = ProductPurchase::create(
                     array_merge(
                         $request->validated(),
                         [
                             'user_id' => Auth::id(),
-                            'product_id' => $product->id
+                            'product_id' => $product->id,
+                            'total'      => $product->price * $request->qty
                         ]
-                    ))
+                        ));
                 if($purchase){
                     //TODO integrate stripe payments here
                     //TODO send email notification to both customer and store owner
-                    ProductPurchased::dispatch($product);
+                    $sendmail = ProductPurchased::dispatch($product);
+                    if(!$sendmail){
+                        return back()->with('error','Product bought successfully but failed to send email notification');
+                    }
                     return back()->with('success', 'Product bought successfully, kindly check your email for the order details');
                 }else{
                     return back()->with('error','Failed to buy product, please try again later');
@@ -43,5 +48,8 @@ class ProductPurchaseController extends Controller
                 return back()->with('error','Something went wrong purchasing the product, please try again later');
             }
         }
+    }
+    public function purchases(){
+        //list all products
     }
 }
