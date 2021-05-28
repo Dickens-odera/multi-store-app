@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::group(['prefix' => 'promotions', 'as' => 'promotions.'], function(){
         Route::post('/{id}/send-mail',[ProductPurchaseController::class,'sendMail'])->name('send_mail');
     });
+    Route::resource('roles',RoleController::class);
 });
 
 //auth routes
