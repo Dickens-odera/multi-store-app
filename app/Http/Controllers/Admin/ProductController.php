@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -34,7 +35,7 @@ class ProductController extends Controller
         }else{
             if($request->hasFile('avatar')){
                 $avatar  = $request->file('avatar');
-                $fileUrl = $avatar->storeAs('products/avatars/'.auth()->user->name.'/'.time());
+                $fileUrl = $avatar->storeAs('vendor_products/avatars',auth()->user()->name.'/'.time());
             }
             $productData = [
                 'name'          =>  $request->name,
@@ -48,7 +49,7 @@ class ProductController extends Controller
             ];
             try{
                 if(Product::create($productData)){
-                    return back()->with('success','Product created successfully');
+                    return redirect()->route('products.index')->with('success','Product created successfully');
                 }else{
                     return back()->with('error','Failed to create the new product, please try again');
                 }
@@ -82,6 +83,7 @@ class ProductController extends Controller
         $product   = Product::with('user','store')->find($id);
         try{
             if($product->delete()){
+                Storage::delete($product->avatar);
                 return back()->with('success','Product deleted successfully');
             }else{
                 return back()->with('error','Failed to delete product, please try again');
