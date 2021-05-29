@@ -15,8 +15,9 @@ class DriverController extends Controller
 {
     public function index()
     {
+        $products = auth()->user()->products;
         $drivers = Driver::with('vehicle','user')->latest()->paginate(5);
-        return view('admin.drivers.index', compact('drivers'));
+        return view('admin.drivers.index', compact('drivers','products'));
     }
 
     public function create()
