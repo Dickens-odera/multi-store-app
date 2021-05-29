@@ -7,9 +7,11 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Stores</div>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#new_store_modal" style="float:right">
-                        Add New Store
-                    </button>
+                    @can('add store')
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#new_store_modal" style="float:right">
+                            Add New Store
+                        </button>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-bordered table-striped table-responsive-xl" style="width:100%">
@@ -35,9 +37,11 @@
                                     <button class="btn-group btn-group-sm" style="border: none">
 {{--                                        <a class="btn btn-sm btn-success" href="#"><i class="fas fa-eye"></i></a>--}}
                                         <a class="btn btn-primary btn-sm" href="{{ route('stores.edit', $store->id) }}"><i class="fas fa-pencil-alt"></i> </a>
-                                        <a class="btn btn-danger btn-sm" onclick="confirmDelete({{ $store->id }})" id="deleteStoreModalBtn" data-id="{{ $store->id }}" href="#"><i class="fa fa-trash"></i>
-                                            <input type="hidden" name="_method" value="DELETE"/>
-                                        </a>
+                                        @can('delete store')
+                                            <a class="btn btn-danger btn-sm" onclick="confirmDelete({{ $store->id }})" id="deleteStoreModalBtn" data-id="{{ $store->id }}" href="#"><i class="fa fa-trash"></i>
+                                                <input type="hidden" name="_method" value="DELETE"/>
+                                            </a>
+                                        @endcan
                                         @if($store->status === \App\Models\Store::STATUS_ACTIVE)
                                             <form method="post" action="{{ route('store.deactivate', ['id' => $store->id ]) }}">
                                                 @csrf
