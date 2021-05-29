@@ -19,7 +19,8 @@ class ProductPurchase extends Model
         'user_id',
         'qty',
         'total',
-        'store_id'
+        'store_id',
+        'client_type'
     ];
     
     public function customer(){
@@ -27,6 +28,6 @@ class ProductPurchase extends Model
     }
 
     public function product(){
-        return $this->belongsTo(Product::class,'user_id');
+        return $this->belongsTo(Product::class,'product_id');
     }
 }

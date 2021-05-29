@@ -42,6 +42,26 @@
                                 <div class="card-title">Previous Purchases</div>
                             </div>
                             <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5>Filter By</h5>
+                                        <form class="form-inline">
+                                            <label class="sr-only" for="inlineFormInputName2">Client Type</label>
+                                            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe">
+                                          
+                                            <label class="sr-only" for="inlineFormInputGroupUsername2">Effective From</label>
+                                            <div class="input-group mb-2 mr-sm-2">
+                                              <input type="date" class="form-control" id="inlineFormInputGroupUsername2" placeholder="From">
+                                            </div>
+                                            <label class="sr-only" for="inlineFormInputGroupUsername2">Effective To</label>
+                                            <div class="input-group mb-2 mr-sm-2">
+                                              <input type="date" class="form-control" id="inlineFormInputGroupUsername2" max="<?php echo date("d/m/Y") ; ?>" placeholder="To">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mb-2">Apply Filter</button>
+                                          </form>
+                                    </div>
+                                    <hr>
+                                </div>
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead>
@@ -50,6 +70,8 @@
                                                     <th>Client Name</th>
                                                     <th>Client Email</th>
                                                     <th>Client Phone</th>
+                                                    <th>Client Type</th>
+                                                    <th>Product Name</th>
                                                     <th>Qty</th>
                                                     <th>Total Payments</th>
                                                     <th>Date Purchased</th>
@@ -62,7 +84,9 @@
                                                         {{-- <td>{{ $purchase->id }}</td>  --}}
                                                         <td>{{ $purchase->customer->name ?? NULL }}</td>
                                                         <td>{{ $purchase->customer->email ?? NULL }}</td> 
-                                                        <td>{{ $purchase->customer->phone ?? NULL }}</td>  
+                                                        <td>{{ $purchase->customer->phone ?? NULL }}</td> 
+                                                        <td>{{ $purchase->client_type }}</td> 
+                                                        <td>{{ $purchase->product->name ?? NULL}}</td> 
                                                         <td>{{ $purchase->qty }}</td> 
                                                         <td>{{ $purchase->total }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($purchase->created_at)->format('d M Y') }}</td>
