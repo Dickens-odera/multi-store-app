@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductPurchase;
+use App\Models\User;
 use App\Http\Requests\ProductPurchaseRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -37,7 +38,8 @@ class ProductPurchaseController extends Controller
                                 'user_id'       => Auth::id(),
                                 'product_id'    => $product->id,
                                 'total'         => $product->price * $request->qty,
-                                'store_id'      => $product->store->id
+                                'store_id'      => $product->store->id,
+                                'client_type'   => $this->getClientType()
                             ]
                     ));
                 if($purchase){
@@ -47,7 +49,7 @@ class ProductPurchaseController extends Controller
                         'in_stock' => $product->in_stock - $request->qty
                     ]);
                     //send mail to store and product owner
-                    $sendmail = ProductPurchased::dispatch($product);
+                    $sendmail = ProductPurchased::dispatch( $product );
                     if(!$sendmail){
                         return back()->with('error','Product bought successfully but failed to send email notification');
                     }
@@ -87,5 +89,16 @@ class ProductPurchaseController extends Controller
     }
     public function purchases(){
         //list all products
+    }
+    
+    private function getClientType(){
+        $purchases = auth()->user()->purchases->count();
+        $client_type = NULL;
+        if( $purchases > 1 ){
+            $client_type = User::REGULAR_CLIENT;
+        }else{
+            $client_type = User::FIRST_TIMER_CLIENT;
+        }
+        return $client_type;
     }
 }

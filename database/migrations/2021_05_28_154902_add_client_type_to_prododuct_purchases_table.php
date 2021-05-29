@@ -14,7 +14,7 @@ class AddClientTypeToProdoductPurchasesTable extends Migration
     public function up()
     {
         Schema::table('product_purchases', function (Blueprint $table) {
-            $table->enum('client_type',['regular','first_timer'])->after('store_id')->default('first_timer');
+            $table->enum('client_type',['regular_client','first_time_client'])->after('store_id')->default('first_time_client');
         });
     }
 

@@ -37,17 +37,6 @@ class ProductController extends Controller
             if($request->hasFile('avatar')){
                 $avatar  = $request->file('avatar');
                 $fileUrl = $avatar->storeAs('vendor_products/avatars',auth()->user()->name.'/'.time(),'public');
-                /*
-                $ext = $avatar->getClientOriginalExtension();
-                $saved_product_photo_name = time().Str::random(40).".".$ext;
-                $path = public_path('uploads/products/'.$saved_product_photo_name);
-                Image::make($avatar->getRealPath())->resize(250, 200, function($constraint)
-                {   
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })->save($path);
-                $fileUrl = $saved_product_photo_name;
-                **/
             }
             $productData = [
                 'name'          =>  $request->name,
@@ -74,6 +63,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
+        //dd(auth()->user()->purchases->count());
         $product   = Product::with('user','store','purchases')->find($id);
         return view('admin.products.show', compact('product'));
     }
