@@ -5,9 +5,11 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Products</div>
+                    @can('add product')
                     <a href="{{ route('products.create') }}" type="button" class="btn btn-primary btn-sm" style="float:right">
                         New
                     </a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-bordered table-striped table-responsive-xl" style="width:100%">

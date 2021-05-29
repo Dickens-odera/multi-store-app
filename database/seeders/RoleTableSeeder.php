@@ -31,15 +31,32 @@ class RoleTableSeeder extends Seeder
         $all_driver_permissions = Permission::create(['name' => 'manage driver']);
         $view_driver_permission = Permission::create(['name' => 'view driver']);
         $assign_driver          = Permission::create(['name' => 'assign driver']);
+
+        //Product permissions
+        $add_product = Permission::create(['name' => 'add product']);
+        $edit_product = Permission::create(['name' => 'edit product']);
+        $view_products = Permission::create(['name' > 'view products']);
+        $delete_product = Permission::create(['name' => 'delete products']);
+
+        //purchases permissions
+        $view_client_purchases = Permission::create(['name' => 'view purchases']);
+        $purchase_products     = Permission::create(['name' => 'purchase product']);
+
+
         //assign permissions to admin role
         $admin->givePermissionTo($add_store);
         $admin->givePermissionTo($edit_store);
         $admin->givePermissionTo($update_store);
         $admin->givePermissionTo($delete_store);
         $admin->givePermissionTo($all_driver_permissions);
+
+
+        $store_owner->givePermissionTo($add_product);
+        $store_owner->givePermissionTo($edit_product);
+        $store_owner->givePermissionTo($view_products);
         $store_owner->givePermissionTo($view_driver_permission);
         $store_owner->givePermissionTo($assign_driver);
 
-        //assign admin role
+        $client->givePermissionTo($purchase_products);
     }
 }
