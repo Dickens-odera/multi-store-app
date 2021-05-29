@@ -329,17 +329,17 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('users.all') }}" class="nav-link">
                                 <i class="fas fa-users nav-icon"></i>
-                                <p>Store Owners</p>
+                                <p>Assign Roles</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="" class="nav-link">
                                 <i class="fas fa-users nav-icon"></i>
                                 <p>Clients</p>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a href="{{ route('drivers.index') }}" class="nav-link">
                                 <i class="far fa-address-card nav-icon"></i>
