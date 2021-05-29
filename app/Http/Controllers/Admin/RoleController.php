@@ -30,6 +30,28 @@ class RoleController extends Controller
         return view('admin.roles.show');
     }
 
+    public function newPermission(Request $request){
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|unique:permissions,name'
+        ]);
+        if($validator->fails()){
+            return back()->with('error',$validator->errors()->first());
+        }else{
+            try{
+                if(Permission::create([
+                    'name' => $request->name
+                ])){
+                    return back()->with('success','permission created successfully');
+                }else{
+                    return back()->with('error','Failed to create permission, please try again');
+                }   
+            }catch(\Exception $exception){
+                Log::critical('Something went wrong creating new permission. ERROR: '.$exception->getMessage());
+                return back()->with('error','Something went wrong creating new permission, try again later');
+            }
+        }
+    }
+
     public function rolePermission( $roleId ){
 
     }

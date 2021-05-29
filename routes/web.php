@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::post('/',[RoleController::class,'submitRole'])->name('submit_new');
         Route::get('/permissions',[RoleController::class,'permissions'])->name('permissions');
         Route::get('/{id}/permissions',[RoleController::class,'rolePermission'])->name('role_permission');
+        Route::post('/permission',[RoleController::class,'newPermission'])->name('new_permission');
     });
 });
 

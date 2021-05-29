@@ -16,7 +16,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Action</th>
+                                    {{-- <th>Action</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -24,16 +24,16 @@
                                     <tr>
                                         <td>{{ $role->id }}</td>
                                         <td>{{ $role->name }}</td>
-                                        <td>
-                                            <button class="btn-group btn-group-sm" style="border: none">
+                                        {{-- <td> --}}
+                                            {{-- <button class="btn-group btn-group-sm" style="border: none">
                                                 {{-- <a class="btn btn-primary btn-sm" href="{{ route('vehicle_types.edit', $vehicle->id) }}"><i class="fas fa-pencil-alt"></i> </a> --}}
                                                 {{-- <form method="post" action="{{ route('roles.destroy', $vehicle->id) }}">
                                                     @csrf
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button>
-                                                </form> --}}
-                                            </button>
-                                        </td>
+                                                </form> 
+                                            </button>  --}}
+                                        {{-- </td> --}}
                                     </tr>
                                @empty
                                        <p>No roles at the moment, please create some new roles</p>
@@ -61,7 +61,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Action</th>
+                                    {{-- <th>Action</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,16 +69,16 @@
                                     <tr>
                                         <td>{{ $permission->id }}</td>
                                         <td>{{ $permission->name }}</td>
-                                        <td>
+                                        {{-- <td>
                                             <button class="btn-group btn-group-sm" style="border: none">
                                                 {{-- <a class="btn btn-primary btn-sm" href="{{ route('vehicle_types.edit', $vehicle->id) }}"><i class="fas fa-pencil-alt"></i> </a> --}}
                                                 {{-- <form method="post" action="{{ route('roles.destroy', $vehicle->id) }}">
                                                     @csrf
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button>
-                                                </form> --}}
-                                            </button>
-                                        </td>
+                                                </form> 
+                                            </button> --}}
+                                        {{-- </td> --}}
                                     </tr>
                                @empty
                                        <p>No roles at the moment, please create some new roles</p>
@@ -142,7 +142,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="post" action="{{ route('stores.store') }}">
+                                <form method="post" action="{{ route('roles.new_permission') }}">
                                     @csrf
                                     <div class="form-group">
                                         <label for="name">Name</label>
@@ -152,14 +152,14 @@
                                         @enderror
                                     </div>
                                     {{-- <div class="form-group">
-                                        <label for="store_owner">Assign Permission</label>
-                                        <select name="permission_id" class="form-control @error('permission_id') is-invalid @enderror">
-                                            <option value="">Select Permission </option>
-                                            @foreach($permissions as $permission)
-                                                <option value="{{ $permission->id }}">{{ $permission->name }}</option>
+                                        <label for="role_id">Assign Role</label>
+                                        <select name="role_id" class="form-control @error('role_id') is-invalid @enderror">
+                                            <option value="">Select Role </option>
+                                            @foreach($roles as $role)
+                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
                                             @endforeach
                                         </select>
-                                        @error('permission_id')
+                                        @error('role_id')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div> --}}
