@@ -19,7 +19,7 @@ class RoleController extends Controller
     }
     
     public function permissions(){
-        $permissions = Permission::orderBy('name','ACS')->get();
+        $permissions = Permission::orderBy('name','ASC')->get();
         return view('admin.roles.show');
     }
 
