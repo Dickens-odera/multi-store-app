@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\VehicleTypeController;
 use App\Http\Controllers\Admin\DriverController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductPurchaseController;
+use App\Http\Controllers\Admin\RoleController;
 
 Route::view('/','welcome');
 //Stores
@@ -38,7 +39,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::group(['prefix' => 'promotions', 'as' => 'promotions.'], function(){
         Route::post('/{id}/send-mail',[ProductPurchaseController::class,'sendMail'])->name('send_mail');
     });
-    Route::resource('roles',RoleController::class);
+    Route::group(['prefix' => 'roles', 'as' => 'roles.'] , function(){
+        Route::get('/',[RoleController::class,'index'])->name('index');
+        Route::post('/',[RoleController::class,'submitRole'])->name('submit_new');
+        Route::get('/permissions',[RoleController::class,'permissions'])->name('permissions');
+        Route::get('/{id}/permissions',[RoleController::class,'rolePermission'])->name('role_permission');
+        Route::post('/permission',[RoleController::class,'newPermission'])->name('new_permission');
+    });
 });
 
 //auth routes

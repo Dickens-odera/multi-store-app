@@ -1,5 +1,7 @@
 @extends('template.layouts.main')
 @section('content')
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -41,6 +43,9 @@
                                             <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button>
                                         </form>
                                     </button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{ $driver->id }}" data-target="#exampleModalCenter">
+                                        Assign Products
+                                    </button>  
                                 </td>
                             </tr>
                         @endforeach
@@ -51,4 +56,46 @@
             </div>
         </div>
     </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Driver Product Assignments</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="post" action="{{ route('stores.store') }}">
+                                            @csrf
+                                            <input type="hidden" name="driver_id" id="driver_id" value="">
+                                            <div class="form-group">
+                                                <label for="product_id">Assign Product</label>
+                                                <select name="product_id" id="multiple-checkboxes" class="form-control  @error('product_id') is-invalid @enderror">
+                                                    <option value="">Select Product </option>
+                                                    @foreach($products as $product)
+                                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('product_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                        $(document).ready(function() {
+                            $('#multiple-checkboxes').multiselect({
+                            includeSelectAllOption: true,
+                        });
+    });
+                            </script>
 @endsection
