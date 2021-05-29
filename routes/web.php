@@ -45,7 +45,16 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/permissions',[RoleController::class,'permissions'])->name('permissions');
         Route::get('/{id}/permissions',[RoleController::class,'rolePermission'])->name('role_permission');
         Route::post('/permission',[RoleController::class,'newPermission'])->name('new_permission');
+        Route::post('/assign-permission',[RoleController::class,'assignPermission'])->name('assign_permission');
     });
+
+    //Assign Roles and permissions to Users
+    Route::group(['prefix' => 'users' , 'as' => 'users.'], function(){
+        Route::get('/',[RoleController::class,'users'])->name('all');
+        Route::post('/{id}/assign',[RoleController::class,'assignRoleToUser'])->name('assign_role');
+        Route::get('/{id}/details',[RoleController::class,'user'])->name('user_details');
+    });
+
 });
 
 //auth routes

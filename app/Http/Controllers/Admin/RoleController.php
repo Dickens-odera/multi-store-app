@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
@@ -17,14 +18,6 @@ class RoleController extends Controller
         return view('admin.roles.index', compact('roles','permissions'));
     }
     
-    public function assignRole(){
-
-    }
-
-    public function revokeRole(){
-
-    }
-
     public function permissions(){
         $permissions = Permission::orderBy('name','ACS')->get();
         return view('admin.roles.show');
@@ -52,8 +45,18 @@ class RoleController extends Controller
         }
     }
 
-    public function rolePermission( $roleId ){
-
+    public function assignPermission(Request $request)
+    {
+        $role = Role::findById($request->role_id);
+        $permission = Permission::findById($request->permission_id);
+        try{
+            if($role->givePermissionTo($permission)){
+                return back()->with('success', $permission->name.' '.'successfully assigned to '.$role->name .'  role');
+            }
+        }catch(\Exception $exception){
+            Log::critical('Could not assifn permission. ERROR '.$exception->getMessage());
+            return back()->with('error','Could not assifn permission, please try again');
+        }
     }
 
     public function submitRole(Request $request){
@@ -73,7 +76,7 @@ class RoleController extends Controller
                         'name' => $request->name
                     ]);
                     if($newRole){
-                        if($request->has('permission_id')){
+                        if($request->has('permission_id') && $request->permission_id !== ""){
                             $permission = Permission::findById($request->permission_id);
                             $newRole->givePermissionTo($permission);
                         }
@@ -87,5 +90,40 @@ class RoleController extends Controller
                 return back()->with('error','Something went wromg creating new role');
             }
         }
+    }
+
+    public function users(){
+        $users = User::with('roles')->orderBy('name')->paginate(10);
+        $roles = Role::orderBy('name','ASC')->get();
+        return view('admin.users.index', compact('users', 'roles'));
+    }
+
+    public function assignRoleToUser(Request $request, $id)
+    {
+        $user = User::find($id);
+        $validator = Validator::make($request->all(),[
+            'role_id' => 'required|exists:roles,id|integer'
+        ]);
+        if($validator->fails()){
+            return back()->with('error', $validator->errors()->first());
+        }else{
+            try{
+                $role = Role::findById($request->role_id);
+                if($user->assignRole($role)){
+                    return back()->with('success','User successfully asigned '.$role->name.'role');
+                }else{
+                    return back()->with('error', 'Could not assign role to user, plese try again');
+                }
+            }catch(\Exception $exception){
+                Log::critical('Could not assign role to user, ERROR: '.$exception->getMessage());
+                return back()->with('error', 'Could not assign role to user, plese try again later');
+            }
+        }
+    }
+
+    public function user( $id ){
+        $user = User::with('roles', 'stores' ,'products', 'drivers', 'purchases')->find($id);
+        $roles = Role::orderBy('name','ASC')->get();
+        return view('admin.users.show', compact('user', 'roles'));
     }
 }
